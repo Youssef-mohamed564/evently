@@ -4,12 +4,30 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedItemColor: AppColor.whiteColor,
+          unselectedItemColor: AppColor.whiteColor),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: AppColor.primaryLight,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(35),
+              side: BorderSide(color: AppColor.whiteColor, width: 5))),
+      primaryColor: AppColor.primaryLight,
       useMaterial3: true,
       textTheme: TextTheme(
           headlineLarge: AppStylse.bold20Black,
           headlineMedium: AppStylse.bold20Black));
   static final ThemeData darkTheme = ThemeData(
+      primaryColor: AppColor.PrimaryDark,
       scaffoldBackgroundColor: AppColor.PrimaryDark,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedItemColor: AppColor.whiteColor,
+          unselectedItemColor: AppColor.whiteColor),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: AppColor.PrimaryDark,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(35),
+              side: BorderSide(color: AppColor.whiteColor, width: 5))),
       useMaterial3: true,
       textTheme: TextTheme(
           headlineMedium: AppStylse.bold20Black,

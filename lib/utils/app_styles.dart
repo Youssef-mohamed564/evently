@@ -17,6 +17,8 @@ class AppStylse {
       fontSize: 14, fontWeight: FontWeight.bold, color: AppColor.primaryLight);
   static TextStyle bold16White = GoogleFonts.inter(
       fontSize: 16, fontWeight: FontWeight.bold, color: AppColor.whiteColor);
+ static TextStyle bold14White = GoogleFonts.inter(
+      fontSize: 14, fontWeight: FontWeight.bold, color: AppColor.whiteColor);
   static TextStyle bold20Primary = GoogleFonts.inter(
       fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.primaryLight);
   static TextStyle bold20Black = GoogleFonts.inter(
