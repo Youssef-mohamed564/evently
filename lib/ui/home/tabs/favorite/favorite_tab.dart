@@ -1,3 +1,4 @@
+import 'package:evently/ui/home/tabs/home_tab/event_item.dart';
 import 'package:evently/ui/home/widgets/custom_text_field.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_colors.dart';
@@ -12,14 +13,14 @@ class FavoriteTab extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: size.width * .04),
-        child: Column(
-          children: [
-            SizedBox(
-              height: size.height * 0.08,
-            ),
-            CustomTextField(
+      body: Column(
+        children: [
+          SizedBox(
+            height: size.height * 0.08,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:16),
+            child: CustomTextField(
               hintText: AppLocalizations.of(context)!.search_event,
               borderColor: AppColor.primaryLight,
               hintStyle: AppStylse.bold14Primary,
@@ -27,12 +28,16 @@ class FavoriteTab extends StatelessWidget {
                 AppAsset.searchIcon,
                 scale: size.width * .008,
               ),
-            ), SizedBox(
-              height: size.height * 0.04,
             ),
-          //  Expanded(child: ListView.builder(itemBuilder: ,))
-          ],
-        ),
+          ),
+          Expanded(
+              child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return EventItem();
+                  },
+
+                  itemCount: 6))
+        ],
       ),
     );
   }

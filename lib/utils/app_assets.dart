@@ -1,6 +1,8 @@
 class AppAsset {
   static const String appLogo = 'assets/images/appLogo.png';
   static const String routeImg = 'assets/images/route_img.png';
+  static const String birthdayImg = 'assets/images/birthday.png';
+
 
   static const String searchIcon = 'assets/images/Icon_search.png';
   static const String exitIcon = 'assets/images/Exit.png';
@@ -13,4 +15,6 @@ class AppAsset {
   static const String selectedProfileIcon = 'assets/images/selectedUser_01.png';
   static const String unSelectedProfileIcon = 'assets/images/profile.png';
   static const String sunIcon = 'assets/images/Sun.png';
+  static const String allIcon = 'assets/images/all_icon.png';
+  static const String sportIcon = 'assets/images/bike.png';
 }

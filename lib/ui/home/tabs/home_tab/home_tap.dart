@@ -1,5 +1,7 @@
 import 'package:evently/provider/language_provider.dart';
 import 'package:evently/provider/theme_provider.dart';
+import 'package:evently/ui/home/tabs/home_tab/event_item.dart';
+import 'package:evently/ui/home/tabs/home_tab/event_type_tap.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/app_styles.dart';
@@ -15,16 +17,34 @@ class HomeTap extends StatefulWidget {
 }
 
 class _HomeTapState extends State<HomeTap> {
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    List<String> eventNameList = [
+      AppLocalizations.of(context)!.all,
+      AppLocalizations.of(context)!.sport,
+      AppLocalizations.of(context)!.birthday,
+      AppLocalizations.of(context)!.meeting,
+      AppLocalizations.of(context)!.gaming,
+      AppLocalizations.of(context)!.workshop,
+      AppLocalizations.of(context)!.book_club,
+      AppLocalizations.of(context)!.exhibition,
+      AppLocalizations.of(context)!.holyday,
+      AppLocalizations.of(context)!.eating,
+    ];
+    List<String> eventIconList = [];
     var languageProvider = Provider.of<LanguageProvider>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
 
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 174,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24))),
+        toolbarHeight: 170,
         backgroundColor: Theme.of(context).primaryColor,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +57,7 @@ class _HomeTapState extends State<HomeTap> {
               'Youssef Mohamed',
               style: AppStylse.bold24White,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Row(
@@ -74,7 +94,7 @@ class _HomeTapState extends State<HomeTap> {
             ),
           ),
           const SizedBox(
-            width: 14,
+            width: 10,
           ),
           GestureDetector(
             onTap: () {
@@ -101,6 +121,48 @@ class _HomeTapState extends State<HomeTap> {
           const SizedBox(
             width: 16,
           ),
+        ],
+        bottom: PreferredSize(
+            preferredSize: Size(size.width, 0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    height: 30,
+                    width: size.width * .911,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: eventNameList.map((eventName) {
+                        return GestureDetector(
+                          onTap: () {
+                            selectedIndex = eventNameList.indexOf(eventName);
+                            setState(() {});
+                          },
+                          child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 6.0),
+                              child: EventTypeTap(
+                                  eventType: eventName,
+                                  isSelected: selectedIndex ==
+                                      eventNameList.indexOf(eventName))),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                )
+              ],
+            )),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+              child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return EventItem();
+                  },
+
+                  itemCount: 6))
         ],
       ),
     );

@@ -26,36 +26,32 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: Theme(
         data: Theme.of(context)
             .copyWith(canvasColor: Theme.of(context).primaryColor),
-        child: BottomAppBar(shape: CircularNotchedRectangle(),height: 82,
-          color: Theme.of(context).primaryColor,
-          notchMargin: 0,
-          child: BottomNavigationBar(elevation: 0,
-              currentIndex: selectedIndex,
-              onTap: (index) {
-                selectedIndex = index;
-                setState(() {});
-              },
-              type: BottomNavigationBarType.fixed,
-              items: [
-                buildBottomNavigationBarItems(
-                    selectedIconName: AppAsset.homeIcon,
-                    unSelectedIconName: AppAsset.unSelectedHomeIcon,
-                    label: AppLocalizations.of(context)!.home),
-                buildBottomNavigationBarItems(
-                  selectedIconName: AppAsset.selectedMapIcon,
-                  unSelectedIconName: AppAsset.unSelectedMapIcon,
-                  label: AppLocalizations.of(context)!.map,
-                ),
-                buildBottomNavigationBarItems(
-                    selectedIconName: AppAsset.selectedHeartIcon,
-                    unSelectedIconName: AppAsset.unSelectedHeartIcon,
-                    label: AppLocalizations.of(context)!.favorite),
-                buildBottomNavigationBarItems(
-                    selectedIconName: AppAsset.selectedProfileIcon,
-                    unSelectedIconName: AppAsset.unSelectedProfileIcon,
-                    label: AppLocalizations.of(context)!.profile)
-              ]),
-        ),
+        child: BottomNavigationBar(elevation: 0,
+            currentIndex: selectedIndex,
+            onTap: (index) {
+              selectedIndex = index;
+              setState(() {});
+            },
+            type: BottomNavigationBarType.fixed,
+            items: [
+              buildBottomNavigationBarItems(
+                  selectedIconName: AppAsset.homeIcon,
+                  unSelectedIconName: AppAsset.unSelectedHomeIcon,
+                  label: AppLocalizations.of(context)!.home),
+              buildBottomNavigationBarItems(
+                selectedIconName: AppAsset.selectedMapIcon,
+                unSelectedIconName: AppAsset.unSelectedMapIcon,
+                label: AppLocalizations.of(context)!.map,
+              ),
+              buildBottomNavigationBarItems(
+                  selectedIconName: AppAsset.selectedHeartIcon,
+                  unSelectedIconName: AppAsset.unSelectedHeartIcon,
+                  label: AppLocalizations.of(context)!.favorite),
+              buildBottomNavigationBarItems(
+                  selectedIconName: AppAsset.selectedProfileIcon,
+                  unSelectedIconName: AppAsset.unSelectedProfileIcon,
+                  label: AppLocalizations.of(context)!.profile)
+            ]),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
