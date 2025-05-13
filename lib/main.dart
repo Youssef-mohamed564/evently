@@ -1,10 +1,13 @@
 import 'package:evently/provider/language_provider.dart';
 import 'package:evently/provider/theme_provider.dart';
 import 'package:evently/ui/home/home_screen.dart';
+import 'package:evently/ui/home/tabs/home_tab/add_event.dart';
 import 'package:evently/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:evently/ui/home/tabs/home_tab/add_event.dart';
+
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
@@ -30,7 +33,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
-      routes: {HomeScreen.routeName: (context) => HomeScreen()},
+      routes: {HomeScreen.routeName: (context) => HomeScreen(),AddEvent.routeName:(context)=>AddEvent()},
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeProvider.currentTheme,

@@ -20,7 +20,7 @@ class FavoriteTab extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal:16),
-            child: CustomTextField(
+            child: CustomTextField(minLines: 1,
               hintText: AppLocalizations.of(context)!.search_event,
               borderColor: AppColor.primaryLight,
               hintStyle: AppStylse.bold14Primary,

@@ -1,4 +1,5 @@
 import 'package:evently/ui/home/tabs/favorite/favorite_tab.dart';
+import 'package:evently/ui/home/tabs/home_tab/add_event.dart';
 import 'package:evently/ui/home/tabs/profile/profile_tab.dart';
 import 'package:evently/ui/home/tabs/home_tab/home_tap.dart';
 import 'package:evently/ui/home/tabs/map/map_tap.dart';
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //ToDo navigate to add new event
+         Navigator.of(context).pushNamed(AddEvent.routeName);
         },
         child: const Icon(
           Icons.add,

@@ -3,42 +3,57 @@ import 'package:evently/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:evently/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
+
 class EventTypeTap extends StatelessWidget {
   final String eventType;
   final String? iconPath;
   final bool isSelected;
+  final Color? selectedBackgroundColor;
+  final Color? selectedTextColor;
+  final Color? borderColor;
+  final Color? unSelectedTextColor;
+  final Color? unSelectedBackgroundColor;
   const EventTypeTap(
       {super.key,
       required this.eventType,
-       this.iconPath,
-      required this.isSelected});
+      this.iconPath,
+      required this.isSelected,
+      this.selectedBackgroundColor,
+      this.unSelectedBackgroundColor,
+      this.selectedTextColor,
+      this.unSelectedTextColor,
+      this.borderColor});
 
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
 
     return Container(
-
       decoration: BoxDecoration(
-          border: const Border.fromBorderSide(
-              BorderSide(color: AppColor.whiteColor, width: 1)),
+          border: Border.fromBorderSide(
+              BorderSide(color: borderColor ?? AppColor.whiteColor, width: 1)),
           borderRadius: BorderRadius.circular(16),
-          color: isSelected?Theme.of(context).cardColor:Theme.of(context).primaryColor),
+          color: isSelected
+              ? selectedBackgroundColor ?? Theme.of(context).cardColor
+              : unSelectedBackgroundColor ?? AppColor.transparentColor),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0,vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2),
         child: Row(
           children: [
-            ImageIcon(
-              AssetImage(iconPath??'assets/images/all_icon.png'),
-              color: isSelected?AppColor.primaryLight:AppColor.whiteColor,
-            ),
+            //  ImageIcon(
+            //  AssetImage(iconPath ?? 'assets/images/all_icon.png'),
+            // color: isSelected ? AppColor.primaryLight : AppColor.whiteColor,
+            //   ),
             const SizedBox(
               width: 4,
             ),
-            Text(
-              eventType,
-              style: isSelected?AppStylse.medium16Primary:AppStylse.medium16White,
-            )
+            Text(eventType,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: isSelected
+                        ? selectedTextColor ?? AppColor.primaryLight
+                        : unSelectedTextColor ?? Colors.white))
           ],
         ),
       ),

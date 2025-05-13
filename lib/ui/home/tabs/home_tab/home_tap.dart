@@ -30,7 +30,7 @@ class _HomeTapState extends State<HomeTap> {
       AppLocalizations.of(context)!.workshop,
       AppLocalizations.of(context)!.book_club,
       AppLocalizations.of(context)!.exhibition,
-      AppLocalizations.of(context)!.holyday,
+      AppLocalizations.of(context)!.holiday,
       AppLocalizations.of(context)!.eating,
     ];
     List<String> eventIconList = [];
@@ -40,7 +40,7 @@ class _HomeTapState extends State<HomeTap> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(24),
                 bottomRight: Radius.circular(24))),
@@ -143,6 +143,16 @@ class _HomeTapState extends State<HomeTap> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 6.0),
                               child: EventTypeTap(
+                                  selectedBackgroundColor:
+                                      themeProvider.currentTheme ==
+                                              ThemeMode.dark
+                                          ? AppColor.primaryLight
+                                          : Colors.white,
+                                  selectedTextColor:
+                                      themeProvider.currentTheme ==
+                                              ThemeMode.dark
+                                          ? Colors.white
+                                          : AppColor.primaryLight,
                                   eventType: eventName,
                                   isSelected: selectedIndex ==
                                       eventNameList.indexOf(eventName))),
@@ -161,7 +171,6 @@ class _HomeTapState extends State<HomeTap> {
                   itemBuilder: (context, index) {
                     return EventItem();
                   },
-
                   itemCount: 6))
         ],
       ),

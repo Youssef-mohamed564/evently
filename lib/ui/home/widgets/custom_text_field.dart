@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   Color? borderColor;
   Widget? prefixIcon;
   Widget? suffixIcon;
+  int? minLines;
   CustomTextField(
       {super.key,
       this.borderColor,
@@ -19,11 +20,12 @@ class CustomTextField extends StatelessWidget {
       this.lableStyle,
       this.prefixIcon,
       this.suffixIcon,
+      this.minLines,
       });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextFormField(minLines: minLines,maxLines: 10,
       cursorColor: AppColor.primaryLight,
       decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -47,7 +49,8 @@ class CustomTextField extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           labelText: lableText,
-          labelStyle: lableStyle
+          labelStyle: lableStyle,
+
       ),
     );
   }
