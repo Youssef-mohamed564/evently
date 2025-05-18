@@ -33,7 +33,6 @@ class _HomeTapState extends State<HomeTap> {
       AppLocalizations.of(context)!.holiday,
       AppLocalizations.of(context)!.eating,
     ];
-    List<String> eventIconList = [];
     var languageProvider = Provider.of<LanguageProvider>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
 
@@ -169,7 +168,7 @@ class _HomeTapState extends State<HomeTap> {
           Expanded(
               child: ListView.builder(
                   itemBuilder: (context, index) {
-                    return EventItem();
+                    return const EventItem();
                   },
                   itemCount: 6))
         ],

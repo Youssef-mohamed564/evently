@@ -11,8 +11,11 @@ class CustomTextField extends StatelessWidget {
   Widget? prefixIcon;
   Widget? suffixIcon;
   int? minLines;
+  TextEditingController? controller;
+  String? Function(String?)? validator;
   CustomTextField(
       {super.key,
+        this.controller,
       this.borderColor,
       this.hintText,
       this.hintStyle,
@@ -21,11 +24,13 @@ class CustomTextField extends StatelessWidget {
       this.prefixIcon,
       this.suffixIcon,
       this.minLines,
+        this.validator
       });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(minLines: minLines,maxLines: 10,
+    return TextFormField(validator: validator,
+      minLines: minLines,maxLines: 10,
       cursorColor: AppColor.primaryLight,
       decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -38,8 +43,8 @@ class CustomTextField extends StatelessWidget {
                   color: borderColor ?? AppColor.greyColor, width: 1)),
           errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                  color: borderColor ?? AppColor.greyColor, width: 1)),
+              borderSide: const BorderSide(
+                  color: Colors.red , width: 1)),
           focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(

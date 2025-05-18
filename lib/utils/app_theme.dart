@@ -7,14 +7,14 @@ class AppTheme {
 
       scaffoldBackgroundColor: AppColor.whiteBgColor,
       cardColor: AppColor.whiteBgColor,
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: AppColor.whiteColor,
           unselectedItemColor: AppColor.whiteColor),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: AppColor.primaryLight,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(35),
-              side: BorderSide(color: AppColor.whiteColor, width: 5))),
+              side: const BorderSide(color: AppColor.whiteColor, width: 5))),
       primaryColor: AppColor.primaryLight,
       useMaterial3: true,
       textTheme: TextTheme(
@@ -24,14 +24,14 @@ class AppTheme {
       cardColor: AppColor.PrimaryDark,
       primaryColor: AppColor.PrimaryDark,
       scaffoldBackgroundColor: AppColor.PrimaryDark,
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: AppColor.whiteColor,
           unselectedItemColor: AppColor.whiteColor),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: AppColor.primaryLight,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(35),
-              side: BorderSide(color: AppColor.whiteColor, width: 5))),
+              side: const BorderSide(color: AppColor.whiteColor, width: 5))),
       useMaterial3: true,
       textTheme: TextTheme(
           headlineMedium: AppStylse.bold20Black,

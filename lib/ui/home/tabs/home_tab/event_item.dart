@@ -16,20 +16,20 @@ class EventItem extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Container(
       height: size.height * .25,
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: AppColor.primaryLight,
           ),
-          image: DecorationImage(
+          image: const DecorationImage(
               image: AssetImage(AppAsset.birthdayImg), fit: BoxFit.fill)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.all(8),
+            margin: const EdgeInsets.all(8),
             width: 44,
             height: 51,
             decoration: BoxDecoration(
@@ -51,8 +51,8 @@ class EventItem extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(8),
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            margin: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
                 color: themeProvider.currentTheme == ThemeMode.light
                     ? AppColor.whiteBgColor
@@ -71,7 +71,7 @@ class EventItem extends StatelessWidget {
                 ),
                 IconButton(
                     onPressed: () {},
-                    icon: Icon(
+                    icon:  Icon(
                       CupertinoIcons.heart,
                       color: AppColor.primaryLight,
                     ))
