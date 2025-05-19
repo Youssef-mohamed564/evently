@@ -35,7 +35,7 @@ class _ProfileTabState extends State<ProfileTab> {
           width: size.width * .3,
         ),
         SizedBox(
-          width: size.width * .04,
+          width: size.width * .02,
         ),
         Column(
           children: [
@@ -47,8 +47,8 @@ class _ProfileTabState extends State<ProfileTab> {
               height: size.height * .02,
             ),
             Text(
-              '''johnSafwatjohnsafwat.route@
-            gmail.com''',
+              '''johnSafwatjohnsafwat.route
+            @gmail.com''',
               style: AppStylse.bold12White,
             )
           ],
