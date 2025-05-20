@@ -1,3 +1,4 @@
+import 'package:evently/provider/event_list_provider.dart';
 import 'package:evently/provider/language_provider.dart';
 import 'package:evently/provider/theme_provider.dart';
 import 'package:evently/ui/home/tabs/home_tab/event_item.dart';
@@ -17,25 +18,12 @@ class HomeTap extends StatefulWidget {
 }
 
 class _HomeTapState extends State<HomeTap> {
-  int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    List<String> eventNameList = [
-      AppLocalizations.of(context)!.all,
-      AppLocalizations.of(context)!.sport,
-      AppLocalizations.of(context)!.birthday,
-      AppLocalizations.of(context)!.meeting,
-      AppLocalizations.of(context)!.gaming,
-      AppLocalizations.of(context)!.workshop,
-      AppLocalizations.of(context)!.book_club,
-      AppLocalizations.of(context)!.exhibition,
-      AppLocalizations.of(context)!.holiday,
-      AppLocalizations.of(context)!.eating,
-    ];
     var languageProvider = Provider.of<LanguageProvider>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
-
+    var eventListProvider = Provider.of<EventListProvider>(context);
+    eventListProvider.getEventNameList(context);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -132,10 +120,13 @@ class _HomeTapState extends State<HomeTap> {
                     width: size.width * .911,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: eventNameList.map((eventName) {
+                      children:
+                          eventListProvider.eventNameList.map((eventName) {
                         return GestureDetector(
                           onTap: () {
-                            selectedIndex = eventNameList.indexOf(eventName);
+                            eventListProvider.changeSelectedIndex(eventListProvider
+                                .eventNameList
+                                .indexOf(eventName));
                             setState(() {});
                           },
                           child: Padding(
@@ -153,8 +144,9 @@ class _HomeTapState extends State<HomeTap> {
                                           ? Colors.white
                                           : AppColor.primaryLight,
                                   eventType: eventName,
-                                  isSelected: selectedIndex ==
-                                      eventNameList.indexOf(eventName))),
+                                  isSelected: eventListProvider.selectedIndex ==
+                                      eventListProvider.eventNameList
+                                          .indexOf(eventName))),
                         );
                       }).toList(),
                     ),
@@ -166,11 +158,17 @@ class _HomeTapState extends State<HomeTap> {
       body: Column(
         children: [
           Expanded(
-              child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return const EventItem();
-                  },
-                  itemCount: 6))
+              child: eventListProvider.filterList.isEmpty
+                  ? Center(
+                      child:
+                          Text(AppLocalizations.of(context)!.no_events_found,style: AppStylse.bold20Black,))
+                  : ListView.builder(
+                      itemBuilder: (context, index) {
+                        return EventItem(
+                          event: eventListProvider.filterList[index],
+                        );
+                      },
+                      itemCount: eventListProvider.filterList.length))
         ],
       ),
     );

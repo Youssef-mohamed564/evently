@@ -4,28 +4,49 @@ import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
-  TextEditingController emailControler =TextEditingController();
-  TextEditingController passControler =TextEditingController();
-  TextEditingController rePassControler =TextEditingController();
-  TextEditingController nameControler =TextEditingController();
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  TextEditingController emailControler = TextEditingController();
+
+  TextEditingController passControler = TextEditingController();
+
+  TextEditingController rePassControler = TextEditingController();
+
+  TextEditingController nameControler = TextEditingController();
+
+  var formKey = GlobalKey<FormState>();
+
+  bool noShowPassword1 = true;
+
+  bool noShowPassword2 = true;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar( leading: IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: const Icon(
-          Icons.arrow_back,
-          color: AppColor.primaryLight,
-        )),
-      centerTitle: true,
-      title: Text(
-        AppLocalizations.of(context)!.register,
-        style: AppStylse.medium20Primary,
-      ),),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: AppColor.primaryLight,
+            )),
+        centerTitle: true,
+        title: Text(
+          AppLocalizations.of(context)!.register,
+          style: AppStylse.medium20Primary,
+        ),
+      ),
       body: ListView(children: [
         Padding(
           padding: const EdgeInsets.all(20.0),
@@ -38,71 +59,132 @@ class RegisterScreen extends StatelessWidget {
                 width: 200,
                 height: 200,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: TextFormField(controller: nameControler,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: AppColor.greyColor,
-                      ),
-                      hintStyle: TextStyle(color: Color(0xff898F9C)),
-                      hintText: AppLocalizations.of(context)!.name,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16))),
-                ),
-              ), Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: TextFormField(controller: emailControler,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.mail,
-                        color: AppColor.greyColor,
-                      ),
-                      hintStyle: TextStyle(color: Color(0xff898F9C)),
-                      hintText: AppLocalizations.of(context)!.email,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16))),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: TextFormField(controller: passControler,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: AppColor.greyColor,
-                      ),
-                      suffixIcon: Icon(
-                        Icons.visibility_off,
-                        color: Color(0xff898F9C),
-                      ),
-                      hintStyle: TextStyle(color: Color(0xff898F9C)),
-                      hintText: AppLocalizations.of(context)!.password,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16))),
-                ),
-              ),
+              Form(key: formKey,
+                  child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: TextFormField(
+                      controller: nameControler,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: AppColor.greyColor,
+                          ),
+                          hintStyle: TextStyle(color: Color(0xff898F9C)),
+                          hintText: AppLocalizations.of(context)!.name,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16))),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: TextFormField(
+                      validator: (text) {
+                        if (text == null || text.trim().isEmpty) {
+                          return 'Please enter email';
+                        }
+                        final bool emailValid = RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(text);
+                        if (!emailValid) {
+                          return 'Please enter valid email';
+                        }
+                        return null;
+                      },
+                      controller: emailControler,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.mail,
+                            color: AppColor.greyColor,
+                          ),
+                          hintStyle: TextStyle(color: Color(0xff898F9C)),
+                          hintText: AppLocalizations.of(context)!.email,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16))),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: TextFormField(
+                      obscureText: noShowPassword1,
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return 'please enter password!';
+                        }
+                      },
+                      controller: passControler,
+                      decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            Icons.lock,
+                            color: AppColor.greyColor,
+                          ),
+                          suffixIcon: InkWell(
+                            onTap: () {
 
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: TextFormField(controller: rePassControler,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: AppColor.greyColor,
-                      ),
-                      suffixIcon: Icon(
-                        Icons.visibility_off,
-                        color: Color(0xff898F9C),
-                      ),
-                      hintStyle: TextStyle(color: Color(0xff898F9C)),
-                      hintText: AppLocalizations.of(context)!.re_password,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16))),
-                ),
+                              setState(() { noShowPassword1 == true
+                                  ? noShowPassword1 = false
+                                  : noShowPassword1 = true;
+                              print('object');});
+                            },
+                            child: Icon(
+                              noShowPassword1
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Color(0xff898F9C),
+                            ),
+                          ),
+                          hintStyle:
+                          const TextStyle(color: Color(0xff898F9C)),
+                          hintText:
+                          AppLocalizations.of(context)!.password,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16))),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: TextFormField(
+                      obscureText: noShowPassword2,
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return 'please enter password!';
+                        }
+                      },
+                      controller: rePassControler,
+                      decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            Icons.lock,
+                            color: AppColor.greyColor,
+                          ),
+                          suffixIcon: InkWell(
+                            onTap: () {
+
+                              setState(() { noShowPassword2 == true
+                                  ? noShowPassword2 = false
+                                  : noShowPassword2 = true;
+                              print('object');});
+                            },
+                            child: Icon(
+                              noShowPassword2
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Color(0xff898F9C),
+                            ),
+                          ),
+                          hintStyle:
+                          const TextStyle(color: Color(0xff898F9C)),
+                          hintText:
+                          AppLocalizations.of(context)!.password,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16))),
+                    ),
+                  ),
+                ],
+              )),
+              const SizedBox(
+                height: 24,
               ),
-             const SizedBox(height: 24,),
               FilledButton(
                   style: FilledButton.styleFrom(
                     fixedSize: Size(353, 50),
@@ -112,8 +194,7 @@ class RegisterScreen extends StatelessWidget {
                     backgroundColor: Color(0xff1877F2),
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: () {
-                  },
+                  onPressed: () {register();},
                   child: Text(
                     AppLocalizations.of(context)!.create_account,
                     style: TextStyle(
@@ -141,11 +222,49 @@ class RegisterScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         ),
       ]),
     );
+  }
+bool registr=false;
+  void register() async {
+    if (formKey.currentState?.validate() == true) {
+      try {registr=true;
+        final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailControler.text,
+          password: passControler.text,
+
+        );if(registr){ Fluttertoast.showToast(
+            msg: "Registered Successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM_RIGHT,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );}
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print('The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          print('The account already exists for that email.');
+          Fluttertoast.showToast(
+              msg: "The account already exists for that email.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM_RIGHT,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      } catch (e) {
+        print(e);
+      }
+      print('tttttttttttttttttttttt');
+    }
   }
 }

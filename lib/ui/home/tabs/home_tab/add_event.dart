@@ -1,5 +1,6 @@
 import 'package:evently/firebase_utils.dart';
 import 'package:evently/models/event.dart';
+import 'package:evently/provider/event_list_provider.dart';
 import 'package:evently/provider/theme_provider.dart';
 import 'package:evently/ui/home/tabs/home_tab/choose_date_time.dart';
 import 'package:evently/ui/home/widgets/custom_text_field.dart';
@@ -7,6 +8,7 @@ import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/app_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:evently/ui/home/tabs/home_tab/event_type_tap.dart';
@@ -22,6 +24,7 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEventState extends State<AddEvent> {
+late EventListProvider eventListProvider;
   int selectedIndex = 0;
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
@@ -60,6 +63,7 @@ class _AddEventState extends State<AddEvent> {
     selectedEventName = eventNameList[selectedIndex];
     var size = MediaQuery.of(context).size;
     var themeProvider = Provider.of<ThemeProvider>(context);
+eventListProvider=Provider.of<EventListProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -256,15 +260,26 @@ class _AddEventState extends State<AddEvent> {
   addEvent() {
     if (formKey.currentState?.validate() == true) {
       FirebaseUtils.addEventToFireStore(Event(
-              dateTime: selectedDate!,
+
+          dateTime: selectedDate!,
               description: descriptionControler.text,
-              title: titleControler.text,
+              title: titleControler.toString(),
               time: selectedTime!.format(context),
               image: selectedImg,
               catigory: selectedEventName))
-          .timeout(Duration(milliseconds: 500), onTimeout: () {
+          .timeout(Duration(milliseconds: 300), onTimeout: () {
+            eventListProvider.getAllEvents();
         Navigator.of(context).pop();
-
+        Fluttertoast.showToast(
+            msg: "event added successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM_RIGHT,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+print(titleControler.text);
       });
     }
   }
