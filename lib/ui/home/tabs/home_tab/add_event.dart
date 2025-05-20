@@ -1,3 +1,5 @@
+import 'package:evently/firebase_utils.dart';
+import 'package:evently/models/event.dart';
 import 'package:evently/provider/theme_provider.dart';
 import 'package:evently/ui/home/tabs/home_tab/choose_date_time.dart';
 import 'package:evently/ui/home/widgets/custom_text_field.dart';
@@ -11,10 +13,9 @@ import 'package:evently/ui/home/tabs/home_tab/event_type_tap.dart';
 
 class AddEvent extends StatefulWidget {
   static const String routeName = '/add';
-  AddEvent({super.key, this.selectedDate, this.choosedDate});
-  final String? choosedDate;
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
+  AddEvent({
+    super.key,
+  });
 
   @override
   State<AddEvent> createState() => _AddEventState();
@@ -22,9 +23,13 @@ class AddEvent extends StatefulWidget {
 
 class _AddEventState extends State<AddEvent> {
   int selectedIndex = 0;
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
   TextEditingController titleControler = TextEditingController();
   TextEditingController descriptionControler = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  String selectedImg = '';
+  String selectedEventName = '';
   @override
   Widget build(BuildContext context) {
     List<String> eventNameList = [
@@ -51,8 +56,8 @@ class _AddEventState extends State<AddEvent> {
       AppAsset.holidayImg,
       AppAsset.eatingImg,
     ];
-    String selectedImg = eventImageList[selectedIndex];
-    String selectedEventName = eventNameList[selectedIndex];
+    selectedImg = eventImageList[selectedIndex];
+    selectedEventName = eventNameList[selectedIndex];
     var size = MediaQuery.of(context).size;
     var themeProvider = Provider.of<ThemeProvider>(context);
 
@@ -189,18 +194,20 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       ChooseDateTime(
                           chooseTime: chooseTime,
-                          choosedTime: widget.selectedDate == null
+                          choosedTime: selectedTime == null
                               ? AppLocalizations.of(context)!.choose_time
-                              : widget.selectedTime!.format(context),
+                              : selectedTime!.format(context),
                           chooseDate: chooseDate,
-                          choosedDate: widget.selectedDate == null
+                          choosedDate: selectedDate == null
                               ? AppLocalizations.of(context)!.choose_date
-                              : '${widget.selectedDate!.day}/${widget.selectedDate!.month}/${widget.selectedDate!.year}'),
+                              : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'),
                       const SizedBox(
                         height: 62,
                       ),
                       FilledButton(
-                        onPressed: () {addEvent();},
+                        onPressed: () {
+                          addEvent();
+                        },
                         style: const ButtonStyle(
                             padding: WidgetStatePropertyAll(
                                 EdgeInsets.symmetric(
@@ -229,12 +236,12 @@ class _AddEventState extends State<AddEvent> {
   }
 
   void chooseDate() async {
-    var selectedDate = await showDatePicker(
+    var selecteddate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(2030));
-    widget.selectedDate = selectedDate;
+    selectedDate = selecteddate;
     setState(() {});
   }
 
@@ -242,14 +249,23 @@ class _AddEventState extends State<AddEvent> {
     var selectedtime =
         await showTimePicker(context: context, initialTime: TimeOfDay.now());
     selectedtime!.format(context);
-    widget.selectedTime = selectedtime;
+    selectedTime = selectedtime;
     setState(() {});
   }
 
-  addEvent(){
-    if(formKey.currentState?.validate()==true){
-      //todo add to db
+  addEvent() {
+    if (formKey.currentState?.validate() == true) {
+      FirebaseUtils.addEventToFireStore(Event(
+              dateTime: selectedDate!,
+              description: descriptionControler.text,
+              title: titleControler.text,
+              time: selectedTime!.format(context),
+              image: selectedImg,
+              catigory: selectedEventName))
+          .timeout(Duration(milliseconds: 500), onTimeout: () {
+        Navigator.of(context).pop();
 
+      });
     }
   }
 }
