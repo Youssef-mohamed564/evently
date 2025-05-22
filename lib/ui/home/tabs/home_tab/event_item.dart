@@ -70,13 +70,11 @@ class _EventItemState extends State<EventItem> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Text(
-                    widget.event.title,
-                    style: themeProvider.currentTheme == ThemeMode.light
-                        ? AppStylse.bold14Black
-                        : AppStylse.bold14White,
-                  ),
+                Text(
+                  widget.event.title,
+                  style: themeProvider.currentTheme == ThemeMode.light
+                      ? AppStylse.bold14Black
+                      : AppStylse.bold14White,
                 ),
                 IconButton(
                     onPressed: () {

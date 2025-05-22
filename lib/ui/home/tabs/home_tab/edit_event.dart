@@ -14,17 +14,17 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:evently/ui/home/tabs/home_tab/event_type_tap.dart';
 
-class AddEvent extends StatefulWidget {
+class EditEvent extends StatefulWidget {
   static const String routeName = '/add';
-  AddEvent({
+  EditEvent({
     super.key,
   });
 
   @override
-  State<AddEvent> createState() => _AddEventState();
+  State<EditEvent> createState() => _EditEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _EditEventState extends State<EditEvent> {
   late EventListProvider eventListProvider;
   int selectedIndex = 0;
   DateTime? selectedDate;
@@ -130,10 +130,10 @@ class _AddEventState extends State<AddEvent> {
                                         child: EventTypeTap(
                                             borderColor: AppColor.primaryLight,
                                             selectedBackgroundColor:
-                                                AppColor.primaryLight,
+                                            AppColor.primaryLight,
                                             selectedTextColor: Colors.white,
                                             unSelectedTextColor:
-                                                AppColor.primaryLight,
+                                            AppColor.primaryLight,
                                             eventType: eventName,
                                             isSelected: selectedIndex ==
                                                 eventNameList
@@ -192,7 +192,7 @@ class _AddEventState extends State<AddEvent> {
                         },
                         controller: descriptionControler,
                         hintText:
-                            AppLocalizations.of(context)!.event_description,
+                        AppLocalizations.of(context)!.event_description,
                         minLines: 4,
                       ),
                       const SizedBox(
@@ -212,25 +212,25 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       FilledButton(
                         onPressed: () {
-                          addEvent();
+                          editEvent();
                         },
                         style: const ButtonStyle(
                             padding: WidgetStatePropertyAll(
                                 EdgeInsets.symmetric(
                                     horizontal: 0, vertical: 12)),
                             backgroundColor:
-                                WidgetStatePropertyAll(AppColor.primaryLight),
+                            WidgetStatePropertyAll(AppColor.primaryLight),
                             shape: WidgetStatePropertyAll(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(16))))),
                         child: Text(
-                          AppLocalizations.of(context)!.add_event,
+                          'Edit Event',
                           style: AppStylse.medium20White,
                         ),
                       ),
                       const SizedBox(
-                        height: 4,
+                        height: 8
                       )
                     ],
                   ))
@@ -253,29 +253,30 @@ class _AddEventState extends State<AddEvent> {
 
   void chooseTime() async {
     var selectedtime =
-        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    await showTimePicker(context: context, initialTime: TimeOfDay.now());
     selectedtime!.format(context);
     selectedTime = selectedtime;
     setState(() {});
   }
 
-  addEvent() {
+  editEvent() {
     if (formKey.currentState?.validate() == true) {
       var userProvider = Provider.of<UserProvider>(context,listen: false);
 
-      FirebaseUtils.addEventToFireStore(
-              Event(
-                  dateTime: selectedDate!,
-                  description: descriptionControler.text,
-                  title: titleControler.text,
-                  time: selectedTime!.format(context),
-                  image: selectedImg,
-                  catigory: selectedEventName),
-              userProvider.currentUser!.id).then((value){
+      FirebaseUtils.editEventToFireStore(
+          Event(
+
+              dateTime: selectedDate!,
+              description: descriptionControler.text,
+              title: titleControler.text,
+              time: selectedTime!.format(context),
+              image: selectedImg,
+              catigory: selectedEventName),
+          userProvider.currentUser!.id).then((value){
         eventListProvider.getAllEvents(userProvider.currentUser!.id);
         Navigator.of(context).pop();
         Fluttertoast.showToast(
-            msg: "event added successfully",
+            msg: "event edited successfully",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM_RIGHT,
             timeInSecForIosWeb: 1,
@@ -289,7 +290,7 @@ class _AddEventState extends State<AddEvent> {
           .timeout(Duration(milliseconds: 300), onTimeout: () {
         eventListProvider.getAllEvents(userProvider.currentUser!.id);
         Fluttertoast.showToast(
-            msg: "event added successfully",
+            msg: "event edited successfully",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM_RIGHT,
             timeInSecForIosWeb: 1,

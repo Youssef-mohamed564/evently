@@ -23,9 +23,9 @@ class EventListProvider extends ChangeNotifier{
       AppLocalizations.of(context)!.eating,
     ];
   }
-  void getAllEvents()async{
+  void getAllEvents(String uid)async{
     print('#################################');
-    QuerySnapshot<Event> querySnapshot =await FirebaseUtils.getEventToFireStore().get();
+    QuerySnapshot<Event> querySnapshot =await FirebaseUtils.getEventToFireStore(uid).get();
     eventsList=querySnapshot.docs.map((doc){
       return doc.data();
     }).toList();
@@ -35,14 +35,14 @@ class EventListProvider extends ChangeNotifier{
 
   }
 
-  void getFilteredEnents(){
+  void getFilteredEnents(String uid){
      filterList = eventsList.where((event){
      return event.catigory == eventNameList[selectedIndex];
     }).toList();
      notifyListeners();
   }
-  void changeSelectedIndex(int newSelectedIndex){
+  void changeSelectedIndex(int newSelectedIndex,String uid){
     selectedIndex=newSelectedIndex;
-    selectedIndex==0?getAllEvents():getFilteredEnents();
+    selectedIndex==0?getAllEvents(uid):getFilteredEnents(uid);
   }
 }

@@ -1,6 +1,8 @@
 import 'package:evently/provider/event_list_provider.dart';
 import 'package:evently/provider/language_provider.dart';
 import 'package:evently/provider/theme_provider.dart';
+import 'package:evently/provider/user_provider.dart';
+import 'package:evently/ui/home/tabs/home_tab/edit_event.dart';
 import 'package:evently/ui/home/tabs/home_tab/event_item.dart';
 import 'package:evently/ui/home/tabs/home_tab/event_type_tap.dart';
 import 'package:evently/utils/app_assets.dart';
@@ -18,6 +20,9 @@ class HomeTap extends StatefulWidget {
 }
 
 class _HomeTapState extends State<HomeTap> {
+int getIndex(int ind){
+  return ind;
+}
   @override
   Widget build(BuildContext context) {
     var languageProvider = Provider.of<LanguageProvider>(context);
@@ -25,6 +30,7 @@ class _HomeTapState extends State<HomeTap> {
     var eventListProvider = Provider.of<EventListProvider>(context);
     eventListProvider.getEventNameList(context);
     var size = MediaQuery.of(context).size;
+    var userProvider =Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
@@ -41,7 +47,7 @@ class _HomeTapState extends State<HomeTap> {
               style: AppStylse.bold14White,
             ),
             Text(
-              'Youssef Mohamed',
+              userProvider.currentUser?.name??'',
               style: AppStylse.bold24White,
             ),
             const SizedBox(
@@ -126,7 +132,7 @@ class _HomeTapState extends State<HomeTap> {
                           onTap: () {
                             eventListProvider.changeSelectedIndex(eventListProvider
                                 .eventNameList
-                                .indexOf(eventName));
+                                .indexOf(eventName),userProvider.currentUser!.id);
                             setState(() {});
                           },
                           child: Padding(
@@ -164,13 +170,21 @@ class _HomeTapState extends State<HomeTap> {
                           Text(AppLocalizations.of(context)!.no_events_found,style: AppStylse.bold20Black,))
                   : ListView.builder(
                       itemBuilder: (context, index) {
-                        return EventItem(
-                          event: eventListProvider.filterList[index],
+                        return GestureDetector(onTap: () {
+                          Navigator.of(context).pushNamed(EditEvent.routeName);
+
+                         },
+                          child: EventItem(
+                            event: eventListProvider.filterList[index],
+                          ),
                         );
                       },
                       itemCount: eventListProvider.filterList.length))
         ],
       ),
     );
+  }
+  moveToEdit(int index){
+
   }
 }

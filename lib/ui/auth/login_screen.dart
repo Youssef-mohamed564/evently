@@ -1,3 +1,6 @@
+import 'package:evently/firebase_utils.dart';
+import 'package:evently/models/my_user.dart';
+import 'package:evently/provider/user_provider.dart';
 import 'package:evently/ui/auth/register_screen.dart';
 import 'package:evently/ui/home/home_screen.dart';
 import 'package:evently/utils/app_assets.dart';
@@ -8,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/';
@@ -28,7 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -39,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,11 +112,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 suffixIcon: InkWell(
                                   onTap: () {
-
-                                    setState(() { noShowPassword == true
-                                        ? noShowPassword = false
-                                        : noShowPassword = true;
-                                    print('object');});
+                                    setState(() {
+                                      noShowPassword == true
+                                          ? noShowPassword = false
+                                          : noShowPassword = true;
+                                      print('object');
+                                    });
                                   },
                                   child: Icon(
                                     noShowPassword
@@ -153,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       foregroundColor: Colors.white,
                     ),
                     onPressed: () {
-                     login();
+                      login();
                     },
                     child: Text(
                       AppLocalizations.of(context)!.login,
@@ -184,7 +191,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () {signInWithGoogle();},
+                    onPressed: () {
+                      signInWithGoogle();
+                    },
                     style: ElevatedButton.styleFrom(
                         foregroundColor: const Color(0xff1877F2),
                         fixedSize: const Size(353, 50),
@@ -216,37 +225,42 @@ class _LoginScreenState extends State<LoginScreen> {
       ]),
     );
   }
-  bool loginbool=false;
-  void login()async{if (formKey.currentState?.validate()==true){
-    try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailControler.text,
-          password: passControler.text
-      );loginbool=true;
-      Fluttertoast.showToast(
-          msg: "Login successfully",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM_RIGHT,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      Navigator.of(context).pushNamed(HomeScreen.routeName);
-    }catch(e) {}; if(loginbool==false){
-      Fluttertoast.showToast(
-          msg: "Wrong email or password!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM_RIGHT,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    }
 
+  bool loginbool = false;
+  void login() async {
+    if (formKey.currentState?.validate() == true) {
+      try {
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailControler.text, password: passControler.text);
+        MyUser? user = await FirebaseUtils.readUserFromFireStore(
+            credential.user!.uid );
+        if (user == null) {
+          return;
+        }
+        var userProvider =Provider.of<UserProvider>(context,listen: false);
+        userProvider.updateUser(user);
+        loginbool = true;
+        Fluttertoast.showToast(
+            msg: "Login successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM_RIGHT,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      } catch (e) {}
+      if (loginbool == false) {
+        Fluttertoast.showToast(
+            msg: "Wrong email or password!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM_RIGHT,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
     }
   }
-
 }
-

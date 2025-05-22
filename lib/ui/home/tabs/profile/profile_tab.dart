@@ -41,13 +41,13 @@ class _ProfileTabState extends State<ProfileTab> {
           children: [
             Text(
               'Route Academy',
-              style: AppStylse.bold24White,
+              style: AppStylse.bold20White,
             ),
             SizedBox(
               height: size.height * .02,
             ),
             Text(
-              '''johnSafwatjohnsafwat.route
+              '''johnSafwatS.route
             @gmail.com''',
               style: AppStylse.bold12White,
             )

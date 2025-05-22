@@ -3,6 +3,7 @@ import 'package:evently/firebase_options.dart';
 import 'package:evently/provider/event_list_provider.dart';
 import 'package:evently/provider/language_provider.dart';
 import 'package:evently/provider/theme_provider.dart';
+import 'package:evently/provider/user_provider.dart';
 import 'package:evently/ui/auth/register_screen.dart';
 import 'package:evently/ui/home/home_screen.dart';
 import 'package:evently/ui/home/tabs/home_tab/add_event.dart';
@@ -18,9 +19,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseFirestore.instance.disableNetwork();
+  //await FirebaseFirestore.instance.disableNetwork();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context)=>EventListProvider()),
+    ChangeNotifierProvider(create: (context)=>UserProvider()),
     ChangeNotifierProvider(create: (context) => LanguageProvider()),
     ChangeNotifierProvider(create: (context) => ThemeProvider())
   ], child: const MyApp()));
