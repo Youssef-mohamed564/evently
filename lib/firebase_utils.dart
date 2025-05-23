@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/models/event.dart';
 import 'package:evently/models/my_user.dart';
-import 'package:evently/provider/event_list_provider.dart';
-import 'package:provider/provider.dart';
+
 
 class FirebaseUtils {
   static CollectionReference<Event> getEventToFireStore(String uid) {

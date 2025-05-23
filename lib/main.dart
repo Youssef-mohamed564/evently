@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/firebase_options.dart';
 import 'package:evently/provider/event_list_provider.dart';
 import 'package:evently/provider/language_provider.dart';

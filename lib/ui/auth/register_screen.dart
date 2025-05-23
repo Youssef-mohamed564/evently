@@ -71,11 +71,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: TextFormField(
                           controller: nameControler,
                           decoration: InputDecoration(
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.person,
                                 color: AppColor.greyColor,
                               ),
-                              hintStyle: TextStyle(color: Color(0xff898F9C)),
+                              hintStyle: const TextStyle(color: Color(0xff898F9C)),
                               hintText: AppLocalizations.of(context)!.name,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
@@ -98,11 +98,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                           controller: emailControler,
                           decoration: InputDecoration(
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.mail,
                                 color: AppColor.greyColor,
                               ),
-                              hintStyle: TextStyle(color: Color(0xff898F9C)),
+                              hintStyle: const TextStyle(color: Color(0xff898F9C)),
                               hintText: AppLocalizations.of(context)!.email,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
@@ -116,6 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (text == null || text.isEmpty) {
                               return 'please enter password!';
                             }
+                            return null;
                           },
                           controller: passControler,
                           decoration: InputDecoration(
@@ -129,14 +130,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     noShowPassword1 == true
                                         ? noShowPassword1 = false
                                         : noShowPassword1 = true;
-                                    print('object');
                                   });
                                 },
                                 child: Icon(
                                   noShowPassword1
                                       ? Icons.visibility_off
                                       : Icons.visibility,
-                                  color: Color(0xff898F9C),
+                                  color: const Color(0xff898F9C),
                                 ),
                               ),
                               hintStyle:
@@ -154,6 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (text == null || text.isEmpty) {
                               return 'please enter password!';
                             }
+                            return null;
                           },
                           controller: rePassControler,
                           decoration: InputDecoration(
@@ -167,14 +168,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     noShowPassword2 == true
                                         ? noShowPassword2 = false
                                         : noShowPassword2 = true;
-                                    print('object');
                                   });
                                 },
                                 child: Icon(
                                   noShowPassword2
                                       ? Icons.visibility_off
                                       : Icons.visibility,
-                                  color: Color(0xff898F9C),
+                                  color: const Color(0xff898F9C),
                                 ),
                               ),
                               hintStyle:
@@ -191,11 +191,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               FilledButton(
                   style: FilledButton.styleFrom(
-                    fixedSize: Size(353, 50),
+                    fixedSize: const Size(353, 50),
                     padding: EdgeInsets.zero,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16)),
-                    backgroundColor: Color(0xff1877F2),
+                    backgroundColor: const Color(0xff1877F2),
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () {
@@ -203,7 +203,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                   child: Text(
                     AppLocalizations.of(context)!.create_account,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w400),

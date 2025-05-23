@@ -15,7 +15,6 @@ class FavoriteTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var eventListProvider = Provider.of<EventListProvider>(context);
-    List<Event> favEvent=[];
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(

@@ -1,4 +1,3 @@
-import 'package:evently/provider/language_provider.dart';
 import 'package:evently/provider/theme_provider.dart';
 
 import 'package:evently/utils/app_colors.dart';

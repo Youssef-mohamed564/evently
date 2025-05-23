@@ -103,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (text == null || text.isEmpty) {
                                 return 'please enter password!';
                               }
+                              return null;
                             },
                             controller: passControler,
                             decoration: InputDecoration(
